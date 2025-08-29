@@ -1,0 +1,24 @@
+{
+  "name": "trees",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test-supabase.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChaonickGCFT/trees.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChaonickGCFT/trees/issues"
+  },
+  "homepage": "https://github.com/ChaonickGCFT/trees#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.56.1"
+  }
+}
