@@ -1,207 +1,208 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Aporion Genealogy — Unverified Trees</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" />
-<style>
-  :root{--bg:#0b0b0b;--card:#111;--ink:#eee;--muted:#bdbdbd;--accent:#a9c08a}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-  header{max-width:980px;margin:24px auto 8px;padding:0 16px;text-align:center}
-  header h1{margin:0;font-size:1.9rem;font-weight:800}
-  header p{margin:.3rem 0 0;color:var(--muted)}
-  .wrap{max-width:980px;margin:0 auto 40px;padding:0 16px}
-  .card{background:var(--card);border-radius:14px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,.25);margin:12px 0}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  label{display:block;margin:.4rem 0 .2rem;color:#ddd}
-  input,textarea{width:100%;box-sizing:border-box;background:#0f0f0f;color:#f4f4f4;border:1px solid #333;border-radius:8px;padding:.6rem .7rem}
-  textarea{min-height:160px;font-family:ui-monospace,Menlo,Consolas,monospace}
-  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  button{cursor:pointer;border:0;border-radius:8px;padding:.65rem 1rem;background:var(--accent);color:#0b0b0b;font-weight:700}
-  .oauth{background:#fafafa10;color:#fff;border:1px solid #2a2a2a}
-  small{color:#aaa}
-  .right{margin-left:auto}
-  .list-item{border:1px dashed #333;border-radius:10px;padding:10px;margin:8px 0}
-  .muted{color:var(--muted)}
-  @media(max-width:860px){.grid{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Unverified Family Trees</title>
+  <style>
+    :root{--bg:#0b0b0b;--card:#111;--ink:#eee;--muted:#bdbdbd;--accent:#a9c08a}
+    html,body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0}
+    .wrap{max-width:980px;margin:40px auto;padding:0 16px}
+    h2,h3{margin:.25rem 0;color:#f4f4f4}
+    p.muted{color:var(--muted)}
+    .card{background:var(--card);border-radius:14px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,.25);margin:12px 0}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    input,textarea{width:100%;box-sizing:border-box;background:#0f0f0f;color:#f4f4f4;border:1px solid #333;border-radius:8px;padding:.6rem .7rem;margin:.35rem 0;font:inherit}
+    textarea{min-height:220px;white-space:pre}
+    button{cursor:pointer;border:0;border-radius:8px;padding:.65rem 1rem;background:var(--accent);color:#0b0b0b;font-weight:700;margin:.25rem .25rem .25rem 0}
+    #githubBtn{background:#fafafa10;color:#fff;border:1px solid #2a2a2a}
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .right{margin-left:auto}
+    .list-item{border:1px dashed #333;border-radius:10px;padding:10px;margin:8px 0}
+    @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🌳 Aporion Genealogy</h1>
-    <p>Make an account with GitHub or email; build your own <em>Unverified Family Tree</em>.</p>
-  </header>
+<div class="wrap">
+  <h2>🌳 Unverified Family Trees</h2>
+  <p class="muted">Sign in with GitHub or email to build and save private draft trees.</p>
 
-  <div class="wrap">
-    <div class="card" id="authCard">
-      <div class="grid">
-        <div>
-          <label>Email</label>
-          <input id="email" type="email" placeholder="you@example.com" />
-          <label>Password (optional)</label>
-          <input id="password" type="password" placeholder="Create or enter password" />
-          <div class="row" style="margin-top:.6rem">
-            <button id="signupBtn">Sign up</button>
-            <button id="signinBtn">Sign in</button>
-            <button id="emailLinkBtn" class="right">Magic link</button>
-          </div>
-        </div>
-        <div>
-          <label>Or continue with</label>
-          <div class="row" style="margin-top:.4rem">
-            <button id="githubBtn" class="oauth">Sign in with GitHub</button>
-          </div>
-          <small class="muted">We never show living people publicly. These trees are your private, unverified notes.</small>
+  <!-- Auth -->
+  <div class="card" id="apo-auth">
+    <div class="grid">
+      <div>
+        <h3>Email</h3>
+        <input id="apo-email" type="email" placeholder="you@example.com">
+        <input id="apo-pass" type="password" placeholder="Password (optional)">
+        <div class="row" style="margin-top:.4rem">
+          <button id="apo-signup">Sign up</button>
+          <button id="apo-signin">Sign in</button>
+          <button id="apo-link" class="right">Magic Link</button>
         </div>
       </div>
-    </div>
-
-    <div class="card" id="userCard" style="display:none">
-      <div class="row">
-        <div id="userEmail"></div>
-        <button id="signoutBtn" class="right">Sign out</button>
-      </div>
-      <small class="muted">Your trees are private to your account. Export JSON anytime.</small>
-    </div>
-
-    <div class="grid" id="appGrid" style="display:none">
-      <div class="card">
-        <h2>Create / Edit Tree</h2>
-        <label>Title</label>
-        <input id="treeTitle" placeholder="eg. Hacquier — Eijsden line" />
-        <label style="margin-top:.6rem">JSON (people, relationships, notes)</label>
-        <textarea id="treeJson" placeholder='{
-  "people":[{"id":"p1","name":"Joseph Lambertus Gerardus Hacquier","born":"1906-12-27","place":"Eijsden"}],
-  "links":[{"parent":"p1","child":"p2"}],
-  "notes":"Unverified, draft from open archives."
-}'></textarea>
-        <div class="row" style="margin-top:.6rem">
-          <button id="saveBtn">Save</button>
-          <button id="newBtn">New</button>
-          <button id="exportBtn" class="right">Export JSON</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Your Trees</h2>
-        <div id="treesList"></div>
+      <div>
+        <h3>Or</h3>
+        <button id="apo-github" style="margin-top:.45rem">Sign in with GitHub</button>
+        <p class="muted" style="margin-top:.5rem">We never show living people publicly. These trees are your private, unverified notes.</p>
       </div>
     </div>
   </div>
 
-  <!-- Supabase UMD -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // ⤵️ Replace with your real values
-    const SUPABASE_URL  = 'https://YOUR-PROJECT-REF.supabase.co';
-    const SUPABASE_ANON = 'YOUR-ANON-PUBLIC-KEY';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  <!-- User -->
+  <div class="card" id="apo-user" style="display:none">
+    <div class="row">
+      <div id="apo-useremail"></div>
+      <button id="apo-signout" class="right">Sign out</button>
+    </div>
+    <p class="muted">Your trees are private to your account. Export JSON anytime.</p>
+  </div>
 
-    const authCard=document.getElementById('authCard'),
-          userCard=document.getElementById('userCard'),
-          appGrid=document.getElementById('appGrid'),
-          userEmailEl=document.getElementById('userEmail');
+  <!-- App -->
+  <div class="grid" id="apo-app" style="display:none">
+    <div class="card">
+      <h3>Create / Edit Tree</h3>
+      <input id="apo-title" placeholder="e.g., Hacquier — Eijsden line">
+      <textarea id="apo-json" placeholder='{
+  "people":[{"id":"p1","name":"Joseph Lambertus Gerardus Hacquier","born":"1906-12-27","place":"Eijsden"}],
+  "links":[{"parent":"p1","child":"p2"}],
+  "notes":"Unverified, draft from open archives."
+}'></textarea>
+      <div class="row" style="margin-top:.6rem">
+        <button id="apo-save">Save</button>
+        <button id="apo-new">New</button>
+        <button id="apo-export" class="right">Export JSON</button>
+      </div>
+    </div>
 
-    const emailEl=document.getElementById('email'),
-          passEl=document.getElementById('password');
+    <div class="card">
+      <h3>Your Trees</h3>
+      <div id="apo-list"></div>
+    </div>
+  </div>
+</div>
 
-    document.getElementById('githubBtn').onclick = async () => {
-      const { error } = await supabase.auth.signInWithOAuth({ provider:'github' });
-      if (error) alert(error.message);
-    };
-    document.getElementById('emailLinkBtn').onclick = async () => {
-      const { error } = await supabase.auth.signInWithOtp({ email: emailEl.value.trim() });
-      if (error) alert(error.message); else alert('Check your email for the sign-in link.');
-    };
-    document.getElementById('signupBtn').onclick = async () => {
-      const { error } = await supabase.auth.signUp({ email: emailEl.value.trim(), password: passEl.value });
-      if (error) alert(error.message); else alert('Check your email to confirm your account.');
-    };
-    document.getElementById('signinBtn').onclick = async () => {
-      const { error } = await supabase.auth.signInWithPassword({ email: emailEl.value.trim(), password: passEl.value });
-      if (error) alert(error.message);
-    };
-    document.getElementById('signoutBtn').onclick = async () => { await supabase.auth.signOut(); };
+<!-- Supabase UMD -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  // Supabase config
+  const SUPABASE_URL  = "https://hvgaakqmdqvezsfhxcdi.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2Z2Fha3FtZHF2ZXpzZmh4Y2RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0ODY0NzQsImV4cCI6MjA3MjA2MjQ3NH0.zWSG74DiD5aDIb-TeRIP2ZfsQavkh3vszwJZb-1e3lE";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    supabase.auth.onAuthStateChange((_evt, session) => {
-      if (session && session.user) {
-        authCard.style.display='none';
-        userCard.style.display='';
-        appGrid.style.display='';
-        userEmailEl.textContent = 'Signed in as ' + (session.user.email || 'GitHub user');
-        loadTrees();
-      } else {
-        authCard.style.display='';
-        userCard.style.display='none';
-        appGrid.style.display='none';
-      }
+  // Elements
+  const el = (id)=>document.getElementById(id);
+  const authCard = el("apo-auth"), userCard = el("apo-user"), appGrid = el("apo-app");
+  const emailEl = el("apo-email"), passEl = el("apo-pass"), userEmail = el("apo-useremail");
+  const titleEl = el("apo-title"), jsonEl = el("apo-json"), listEl = el("apo-list");
+  let editingId = null;
+
+  // Auth
+  el("apo-signup").onclick = async ()=>{
+    const { error } = await supabase.auth.signUp({ email: emailEl.value, password: passEl.value });
+    if(error) alert(error.message); else alert("Check your email to confirm.");
+  };
+  el("apo-signin").onclick = async ()=>{
+    const { error } = await supabase.auth.signInWithPassword({ email: emailEl.value, password: passEl.value });
+    if(error) alert(error.message);
+  };
+  el("apo-link").onclick = async ()=>{
+    const { error } = await supabase.auth.signInWithOtp({ email: emailEl.value });
+    if(error) alert(error.message); else alert("Magic link sent.");
+  };
+  el("apo-github").onclick = async ()=>{
+    const { error } = await supabase.auth.signInWithOAuth({ provider: "github" });
+    if(error) alert(error.message);
+  };
+  el("apo-signout").onclick = ()=>supabase.auth.signOut();
+
+  // Session UI
+  supabase.auth.onAuthStateChange((_e, session)=>{
+    if(session && session.user){
+      authCard.style.display="none";
+      userCard.style.display="";
+      appGrid.style.display="";
+      userEmail.textContent = "Signed in as " + (session.user.email || "GitHub user");
+      loadTrees();
+    }else{
+      authCard.style.display="";
+      userCard.style.display="none";
+      appGrid.style.display="none";
+    }
+  });
+
+  // CRUD
+  async function loadTrees(){
+    const { data, error } = await supabase.from("trees").select("id,title,data,updated_at").order("updated_at",{ascending:false});
+    if(error){ alert(error.message); return; }
+    listEl.innerHTML = "";
+    if(!data || !data.length){ listEl.innerHTML = '<div class="muted">No trees yet.</div>'; return; }
+    data.forEach(row=>{
+      const wrap = document.createElement("div");
+      wrap.className = "list-item";
+      wrap.innerHTML = `
+        <div class="row">
+          <strong>${row.title}</strong>
+          <span class="muted right">${new Date(row.updated_at).toLocaleString()}</span>
+        </div>
+        <div class="row" style="margin-top:6px">
+          <button data-id="${row.id}" class="edit">Edit</button>
+          <button data-id="${row.id}" class="del">Delete</button>
+        </div>`;
+      listEl.appendChild(wrap);
     });
+    listEl.querySelectorAll(".edit").forEach(b=>b.onclick=()=>editTree(b.dataset.id));
+    listEl.querySelectorAll(".del").forEach(b=>b.onclick=()=>delTree(b.dataset.id));
+  }
 
-    async function loadTrees(){
-      const { data, error } = await supabase.from('trees').select('id,title,data,updated_at').order('updated_at',{ascending:false});
-      const list = document.getElementById('treesList');
-      if(error){ alert(error.message); return; }
-      list.innerHTML = '';
-      if(!data || !data.length){ list.innerHTML = '<div class="muted">No trees yet.</div>'; return; }
-      data.forEach(row=>{
-        const div = document.createElement('div');
-        div.className = 'list-item';
-        div.innerHTML = `
-          <div class="row">
-            <strong>${row.title}</strong>
-            <span class="muted right">${new Date(row.updated_at).toLocaleString()}</span>
-          </div>
-          <div class="row" style="margin-top:6px">
-            <button data-id="${row.id}" class="edit">Edit</button>
-            <button data-id="${row.id}" class="del">Delete</button>
-          </div>`;
-        list.appendChild(div);
-      });
-      list.querySelectorAll('.edit').forEach(b=>b.onclick=()=>editTree(b.dataset.id));
-      list.querySelectorAll('.del').forEach(b=>b.onclick=()=>delTree(b.dataset.id));
+  async function editTree(id){
+    const { data, error } = await supabase.from("trees").select("*").eq("id", id).single();
+    if(error){ alert(error.message); return; }
+    editingId = id;
+    titleEl.value = data.title;
+    jsonEl.value = JSON.stringify(data.data, null, 2);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function delTree(id){
+    if(!confirm("Delete this tree?")) return;
+    const { error } = await supabase.from("trees").delete().eq("id", id);
+    if(error) alert(error.message); else loadTrees();
+  }
+
+  el("apo-save").onclick = async ()=>{
+    const title = titleEl.value.trim();
+    if(!title) return alert("Title is required");
+    let parsed={};
+    if(jsonEl.value.trim()){
+      try{ parsed = JSON.parse(jsonEl.value); }
+      catch(e){ return alert("JSON is invalid"); }
     }
-
-    async function editTree(id){
-      const { data, error } = await supabase.from('trees').select('*').eq('id',id).single();
-      if(error){ alert(error.message); return; }
-      editingId = id;
-      document.getElementById('treeTitle').value = data.title;
-      document.getElementById('treeJson').value  = JSON.stringify(data.data, null, 2);
-      window.scrollTo({ top:0, behavior:'smooth' });
+    const payload = { title, data: parsed };
+    let res;
+    if(editingId){
+      res = await supabase.from("trees").update(payload).eq("id", editingId).select().single();
+    }else{
+      const user = (await supabase.auth.getUser()).data.user;
+      res = await supabase.from("trees").insert({ ...payload, owner: user.id }).select().single();
     }
+    if(res.error){ alert(res.error.message); return; }
+    editingId = res.data.id;
+    alert("Saved.");
+    loadTrees();
+  };
 
-    async function delTree(id){
-      if(!confirm('Delete this tree?')) return;
-      const { error } = await supabase.from('trees').delete().eq('id',id);
-      if(error) alert(error.message); else loadTrees();
-    }
+  el("apo-new").onclick = ()=>{
+    editingId = null; titleEl.value = ""; jsonEl.value = "";
+  };
 
-    let editingId = null;
-    document.getElementById('saveBtn').onclick = async ()=>{
-      const title = document.getElementById('treeTitle').value.trim();
-      if(!title) return alert('Title is required');
-      let parsed={};
-      const raw = document.getElementById('treeJson').value.trim();
-      if(raw){ try{ parsed = JSON.parse(raw); } catch(e){ return alert('JSON is invalid'); } }
-      const payload = { title, data: parsed };
-      let res;
-      if(editingId){
-        res = await supabase.from('trees').update(payload).eq('id',editingId).select().single();
-      }else{
-        const user = (await supabase.auth.getUser()).data.user;
-        res = await supabase.from('trees').insert({ ...payload, owner: user.id }).select().single();
-      }
-      if(res.error){ alert(res.error.message); return; }
-      editingId = res.data.id;
-      alert('Saved.'); loadTrees();
-    };
-    document.getElementById('newBtn').onclick = ()=>{ editingId=null; document.getElementById('treeTitle').value=''; document.getElementById('treeJson').value=''; };
-    document.getElementById('exportBtn').onclick = ()=>{
-      const title = (document.getElementById('treeTitle').value || 'family_tree').replace(/\s+/g,'_');
-      const blob = new Blob([document.getElementById('treeJson').value || '{}'], {type:'application/json'});
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`${title}.json`; a.click();
-    };
-  </script>
+  el("apo-export").onclick = ()=>{
+    const name = (titleEl.value || "family_tree").replace(/\s+/g,"_");
+    const blob = new Blob([jsonEl.value || "{}"], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name + ".json"; a.click();
+  };
+})();
+</script>
 </body>
 </html>
